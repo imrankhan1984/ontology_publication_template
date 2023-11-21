@@ -17,6 +17,6 @@
                            owl:versionInfo "1.0.0" .
 
 ###  https://example.org/example-ontology-stub#ExampleClassStub
-:ExampleClassStub rdf:type owl:Class .
+:ExampleClassStub rdf:type owl:Class ;
                   rdfs:isDefinedBy <https://example.org/example-ontology-stub> ;
                   rdfs:label "Example class stub"@en .
