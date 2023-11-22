@@ -12,6 +12,10 @@ jobs:
       with:
         ref: main
         path: main
+    - name: Get ontology version
+      run: |
+           pip install rdflib
+           python get_version.py
     - name: Build HTML for main
       run: | 
            wget -O widoco.jar https://github.com/dgarijo/Widoco/releases/download/v1.4.17/java-11-widoco-1.4.17-jar-with-dependencies.jar
