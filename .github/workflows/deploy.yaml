@@ -23,7 +23,6 @@ jobs:
            mkdir public/v$ONTO_VERSION
            java -jar widoco.jar -ontFile main/ontology.ttl -outFolder public/v$ONTO_VERSION -htaccess -uniteSections -includeAnnotationProperties -lang en-de  -getOntologyMetadata -noPlaceHolderText -rewriteAll -webVowl
            cp public/v$ONTO_VERSION/index-en.html public/v$ONTO_VERSION/index.html
-           ln -s public/v$ONTO_VERSION public/latest
     - name: Deploy to GitHub Pages
       if: success()
       uses: crazy-max/ghaction-github-pages@v3
