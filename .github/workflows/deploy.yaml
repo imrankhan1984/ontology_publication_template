@@ -15,13 +15,14 @@ jobs:
     - name: Get ontology version
       run: |
            pip install rdflib
-           python main/get_version.py
+           export ONTO_VERSION=$(python main/get_version.py)
     - name: Build HTML for main
       run: | 
            wget -O widoco.jar https://github.com/dgarijo/Widoco/releases/download/v1.4.17/java-11-widoco-1.4.17-jar-with-dependencies.jar
            mkdir public 
-           java -jar widoco.jar -ontFile main/ontology.ttl -outFolder public -htaccess -uniteSections -includeAnnotationProperties -lang en-de  -getOntologyMetadata -noPlaceHolderText -rewriteAll -webVowl
-           cp public/index-en.html public/index.html
+           mkdir public/v${ONTO_VERSION}
+           java -jar widoco.jar -ontFile main/ontology.ttl -outFolder public/v${ONTO_VERSION} -htaccess -uniteSections -includeAnnotationProperties -lang en-de  -getOntologyMetadata -noPlaceHolderText -rewriteAll -webVowl
+           cp public/v${ONTO_VERSION}/index-en.html public/v${ONTO_VERSION}/index.html
     - name: Deploy to GitHub Pages
       if: success()
       uses: crazy-max/ghaction-github-pages@v3
