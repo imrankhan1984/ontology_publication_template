@@ -1,14 +1,14 @@
 # .htaccess for platform material digital vocabs
 RewriteEngine On
 
-SetEnvIf Request_URI ^.*$ ONT_BASE=https://matttjung.github.io/ontology_publish ONT_VERSION=v1.0.1
-SetEnvIf Request_URI ^/pubex/(\d+\.\d+\.\d+) ONT_VERSION=v$1
+SetEnvIf Request_URI ^/pubex/(.*)$ ONT_BASE=https://matttjung.github.io/ontology_publish ONT_VERSION=v1.0.1 ONT_ANCHOR=$1
+SetEnvIf Request_URI ^/pubex/(\d+\.\d+\.\d+)/(.*)$ ONT_VERSION=v$1 ONT_ANCHOR=$2
 
 # Rewrite rule to serve HTML content from the vocabulary URI if requested
 RewriteCond %{HTTP_ACCEPT} !application/rdf\+xml.*(text/html|application/xhtml\+xml)
 RewriteCond %{HTTP_ACCEPT} text/html [OR]
 RewriteCond %{HTTP_ACCEPT} application/xhtml\+xml 
-RewriteRule ^(.*)$ %{ENV:ONT_BASE}/%{ENV:ONT_VERSION}/index-en.html [R=303,L]
+RewriteRule ^(.*)$ %{ENV:ONT_BASE}/%{ENV:ONT_VERSION}/index-en.html#%{ENV:ONT_ANCHOR} [R=303,L,NE]
 
 # Rewrite rule to serve JSON-LD content from the vocabulary URI if requested
 RewriteCond %{HTTP_ACCEPT} application/ld\+json
