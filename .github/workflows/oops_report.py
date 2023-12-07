@@ -187,7 +187,7 @@ def oops_report(ontology_url=None, ontology_file=None,
         print(f"Report shows {len(report['pitfalls'])} pitfalls and {len(report['suggestions'])}",
               f"suggestions. Max level is {maxlevel}:{maxlevel_text}")
 
-    with open('report.json', 'w', encoding='utf8') as f:
+    with open('oops_report.json', 'w', encoding='utf8') as f:
         json.dump(report, f, indent=4)
 
     with open('oops_maxlevel.txt', 'w', encoding='utf8') as f:
