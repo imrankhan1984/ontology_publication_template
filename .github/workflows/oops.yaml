@@ -35,6 +35,9 @@ jobs:
         keep_history: true
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: Purge badge cache
+      run: |
+           curl -w "\n" -s -X PURGE https://raw.githubusercontent.com/MattTJung/ontology_publish/gh-pages/oops_badge.svg
     - name: Keep oops report as artifact
       uses: actions/upload-artifact@v3
       with:
