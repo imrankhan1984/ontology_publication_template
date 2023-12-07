@@ -15,7 +15,7 @@
                            <http://purl.org/dc/terms/license> <http://creativecommons.org/licenses/by/4.0/> ;
                            <http://purl.org/dc/terms/title> "Example Ontology Stub"@en ;
                            rdfs:comment "Example Ontology Stub"@en ;
-                           owl:versionInfo "1.0.1" .
+                           owl:versionInfo "1.0.0" .
 
 ###  https://example.org/example-ontology-stub/ExampleClassStub
 :ExampleClassStub rdf:type owl:Class ;
