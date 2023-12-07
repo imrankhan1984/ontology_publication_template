@@ -16,7 +16,7 @@ A workflow definition that does the following steps on push to main:
 2) Build the html documentation and the ontologies alternate serializations for the current version
 3) add the current versions documentation and serializations to gh-pages, maintaining other versions and replacing the same (current) version
 
-### [.htaccess](.htaccess)
+### [.htaccess_example](.htaccess_example)
 A example .htaccess file that takes care of finding the correct version and the latest version. Currently this file has to be edited for each new version (unfortunately gh-pages does not allow symlinks). It's meant to be used at some perma-id provider e.g. at [w3id.org](https://w3id.org).
 
 ## Future work
