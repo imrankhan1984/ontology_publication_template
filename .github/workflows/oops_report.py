@@ -182,6 +182,8 @@ def oops_report(ontology_url=None, ontology_file=None,
         'Content-Type': 'application/xml'
     }
     response = requests.post(url, data=xml_body, headers=headers, timeout=REQ_TIMEOUT)
+    with open('oops_request_raw.txt', 'wb') as f:
+        f.write(response.content)
 
     if verbose:
         print(f'OOPS API answered with status code {response.status_code}')

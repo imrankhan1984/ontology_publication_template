@@ -48,7 +48,10 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
-
+    - name: Get ontology version
+      run: |
+           pip install rdflib
+           echo "ONTO_VERSION=$(python main/.github/workflows/get_ontoversion.py)" >> "$GITHUB_ENV"
     - name: Update Release
       run: |
         gh release delete ${{ env.ONTO_VERSION }} -y
