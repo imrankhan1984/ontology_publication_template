@@ -58,16 +58,15 @@ jobs:
            ontoversion=$(python main/.github/workflows/get_ontoversion.py)
            echo "Got version from python script: $ontoversion"
            echo "V_ONTO_VERSION=$ontoversion" >> $GITHUB_ENV
-    - name: Store onto version
-      run: echo "Store onto version ${{ steps.get_onto_version.outputs.V_ONTO_VERSION }}"
-      env:
-        ONTO_VERSION: ${{ steps.get_onto_version.outputs.V_ONTO_VERSION }}
+#    - name: Store onto version
+#      run: echo "Store onto version ${{ steps.get_onto_version.outputs.V_ONTO_VERSION }}"
+#      env:
+#        ONTO_VERSION: ${{ steps.get_onto_version.outputs.V_ONTO_VERSION }}
     - name: Update Release
       run: |
            cd main
-           echo "ONTO_VERSION: $ONTO_VERSION"
            echo "V_ONTO_VERSION: $V_ONTO_VERSION"
-           gh release delete "$ONTO_VERSION" -y
-           gh release create "$ONTO_VERSION" --title "Release $ONTO_VERSION" --notes "Release $ONTO_VERSION"
+           gh release delete "$V_ONTO_VERSION" -y
+           gh release create "$V_ONTO_VERSION" --title "Release $V_ONTO_VERSION" --notes "Release $V_ONTO_VERSION"
       env:
         GH_TOKEN: ${{ github.token }}
