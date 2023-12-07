@@ -5,13 +5,13 @@ on:
     branches:
     - develop
 jobs:
-  deploy:
+  oops:
     runs-on: ubuntu-latest
     steps:
     ## First step: Checkout main from the repository
     - uses: actions/checkout@v3
       with:
-        ref: main
+        ref: develop
         path: main
     ## Second step: Get report from OOPS API
     - name: Get report from OOPS API
