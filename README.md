@@ -1,5 +1,7 @@
 # ontology_publish
 
+[![OOPS!](https://raw.githubusercontent.com/MattTJung/ontology_publish/gh-pages/oops_badge.svg)](https://oops.linkeddata.es/)
+
 ## Purpose
 This repo contains a minimal example of how ontologies could be published using github-pages while maintaining availability of definition files and documentation for older versions.
 

@@ -1,0 +1,45 @@
+name: OOPS
+
+on:
+  push:
+    branches:
+    - main
+jobs:
+  oops:
+    runs-on: ubuntu-latest
+    steps:
+    ## First step: Checkout main from the repository
+    - uses: actions/checkout@v3
+      with:
+        ref: main
+        path: main
+    ## Second step: Get report from OOPS API
+    - name: Get report from OOPS API
+      run: |
+           pip install rdflib
+           python main/.github/workflows/oops_report.py --ontology-file main/ontology.ttl --ontology-file-type turtle --restriction https://example.org --verbose
+           echo "BADGE_COLOR=$(cat _oops_maxlevel_color.txt)" >> $GITHUB_ENV
+           echo "BADGE_TEXT=$(cat _oops_maxlevel_text.txt)" >> $GITHUB_ENV
+    - name: Create badge
+      run: |
+           npm install -g badge-maker
+           badge OOPS! $BADGE_TEXT :$BADGE_COLOR > oops_badge.svg
+           mkdir public
+           cp oops_badge.svg public/oops_badge.svg
+    - name: Deploy to GitHub Pages
+      if: success()
+      uses: crazy-max/ghaction-github-pages@v3
+      with:
+        target_branch: gh-pages
+        build_dir: public
+        keep_history: true
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: Purge badge cache
+      run: |
+           curl -w "\n" -s -X PURGE https://raw.githubusercontent.com/MattTJung/ontology_publish/gh-pages/oops_badge.svg
+    - name: Keep oops report as artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: oops_report
+        path: ./oops*
