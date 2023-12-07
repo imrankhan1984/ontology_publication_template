@@ -1,4 +1,4 @@
-name: HTML
+name: Deploy
 
 on:
   push:
@@ -47,9 +47,9 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        tag_name: v$ONTO_VERSION
-        release_name: Release $ONTO_VERSION
+        tag_name: v${{ env.ONTO_VERSION }}
+        release_name: Release ${{ env.ONTO_VERSION }}
         body: |
-          Release of version $ONTO_VERSION
+          Release of version ${{ env.ONTO_VERSION }}
         draft: false
         prerelease: false
