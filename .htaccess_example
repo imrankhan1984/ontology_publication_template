@@ -1,7 +1,7 @@
 # .htaccess for platform material digital vocabs
 RewriteEngine On
 
-SetEnvIf Request_URI ^/pubex/(.*)$ ONT_BASE=https://matttjung.github.io/ontology_publish ONT_VERSION=v1.0.1 ONT_ANCHOR=$1
+SetEnvIf Request_URI ^/pubex/(.*)$ ONT_BASE=https://materialdigital.github.io/ontology_publish ONT_VERSION=v1.0.1 ONT_ANCHOR=$1
 SetEnvIf Request_URI ^/pubex/(\d+\.\d+\.\d+)/(.*)$ ONT_VERSION=v$1 ONT_ANCHOR=$2
 
 # Rewrite rule to serve HTML content from the vocabulary URI if requested
