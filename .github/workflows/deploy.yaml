@@ -54,5 +54,5 @@ jobs:
            echo "ONTO_VERSION=$(python main/.github/workflows/get_ontoversion.py)" >> "$GITHUB_ENV"
     - name: Update Release
       run: |
-        gh release delete ${{ env.ONTO_VERSION }} -y
-        gh release create ${{ env.ONTO_VERSION }} --title "Release ${{ env.ONTO_VERSION }}" --notes "Release ${{ env.ONTO_VERSION }}"
+        gh release delete $ONTO_VERSION -y
+        gh release create $ONTO_VERSION --title "Release ${{ env.ONTO_VERSION }}" --notes "Release ${{ env.ONTO_VERSION }}"
