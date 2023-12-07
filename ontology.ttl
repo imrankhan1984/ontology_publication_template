@@ -30,3 +30,9 @@
                  rdfs:domain :ExampleClassStub ;
                  rdfs:range :ExampleClassStub .
 
+### https://example.org/example-ontology-stub/exampleInverseRelation
+:exampleInverseRelation rdf:type owl:ObjectProperty ;
+                        skos:definition "An example inverse relation"@en ;
+                        rdfs:label "has exampleInverseRelation"@en ;
+                        rdfs:inverseOf :exampleRelation .
+
