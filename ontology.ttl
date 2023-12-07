@@ -8,14 +8,14 @@
 @base <https://w3id.org/pmd/ont_pub_tmplt/> .
 
 <https://w3id.org/pmd/ont_pub_tmplt> rdf:type owl:Ontology ;
-                           owl:versionIRI <https://w3id.org/pmd/ont_pub_tmplt/1.0.0> ;
+                           owl:versionIRI <https://w3id.org/pmd/ont_pub_tmplt/1.0.1> ;
                            owl:imports <http://www.w3.org/ns/prov-o-inverses-20130430> ;
                            <http://purl.org/dc/elements/1.1/creator> "John Doe" ;
                            <http://purl.org/dc/terms/created> "2023-11-21" ;
                            <http://purl.org/dc/terms/license> <http://creativecommons.org/licenses/by/4.0/> ;
                            <http://purl.org/dc/terms/title> "Example Ontology Stub"@en ;
                            rdfs:comment "Example Ontology Stub"@en ;
-                           owl:versionInfo "1.0.0" .
+                           owl:versionInfo "1.0.1" .
 
 ###  https://example.org/example-ontology-stub/ExampleClassStub
 :ExampleClassStub rdf:type owl:Class ;
