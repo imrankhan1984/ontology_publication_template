@@ -25,30 +25,30 @@ jobs:
       needs: oops
       if: ${{ failure() }}
       runs-on: ubuntu-latest
-        steps:
-        - name: Cleanup Step
-          run: |
-               npm install -g badge-maker
-               badge OOPS! "API didn't respond" :blue > oops_badge.svg
-               mkdir public
-               cp oops_badge.svg public/oops_badge.svg
-        - name: Deploy to GitHub Pages
-          if: success()
-          uses: crazy-max/ghaction-github-pages@v3
-          with:
-            target_branch: gh-pages
-            build_dir: public
-            keep_history: true
-          env:
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        - name: Purge badge cache
-          run: |
-               curl -w "\n" -s -X PURGE https://raw.githubusercontent.com/MattTJung/ontology_publish/gh-pages/oops_badge.svg
-        - name: Keep oops report as artifact
-          uses: actions/upload-artifact@v3
-          with:
-            name: oops_report
-            path: ./oops*
+      steps:
+      - name: Cleanup Step
+        run: |
+             npm install -g badge-maker
+             badge OOPS! "API didn't respond" :blue > oops_badge.svg
+             mkdir public
+             cp oops_badge.svg public/oops_badge.svg
+      - name: Deploy to GitHub Pages
+        if: success()
+        uses: crazy-max/ghaction-github-pages@v3
+        with:
+          target_branch: gh-pages
+          build_dir: public
+          keep_history: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Purge badge cache
+        run: |
+             curl -w "\n" -s -X PURGE https://raw.githubusercontent.com/MattTJung/ontology_publish/gh-pages/oops_badge.svg
+      - name: Keep oops report as artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: oops_report
+          path: ./oops*
     - name: Create badge
       run: |
            npm install -g badge-maker
