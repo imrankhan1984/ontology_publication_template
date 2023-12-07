@@ -42,14 +42,21 @@ jobs:
         keep_history: true
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    - name: Create Release
-      uses: actions/create-release@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        tag_name: v${{ env.ONTO_VERSION }}
-        release_name: Release ${{ env.ONTO_VERSION }}
-        body: |
-          Release of version ${{ env.ONTO_VERSION }}
-        draft: false
-        prerelease: false
+  update_release:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Install GitHub CLI
+      run: |
+        sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-key C99B11DEB97541F0
+        sudo apt-add-repository https://cli.github.com/packages
+        sudo apt update
+        sudo apt install gh
+
+    - name: Update Release
+      run: |
+        gh release delete ${{ env.ONTO_VERSION }} -y
+        gh release create ${{ env.ONTO_VERSION }} --title "Release ${{ env.ONTO_VERSION }}" --notes "Release ${{ env.ONTO_VERSION }}"
