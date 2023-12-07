@@ -62,11 +62,26 @@ jobs:
 #      run: echo "Store onto version ${{ steps.get_onto_version.outputs.V_ONTO_VERSION }}"
 #      env:
 #        ONTO_VERSION: ${{ steps.get_onto_version.outputs.V_ONTO_VERSION }}
-    - name: Update Release
+    - name: Check if release exists
+      run: |
+           cd main
+           if gh release view "v$V_ONTO_VERSION" -R owner/repo &> /dev/null; then
+             echo "RELEASE_EXISTS=true" >> $GITHUB_ENV
+           else
+             echo "RELEASE_EXISTS=false" >> $GITHUB_ENV
+           fi
+      env:
+        GH_TOKEN: ${{ github.token }}
+    - name: Delete old release if it exists
+      if: RELEASE_EXISTS == 'true'
+      run : |
+            gh release delete "v$V_ONTO_VERSION" -y
+      env:
+        GH_TOKEN: ${{ github.token }}
+    - name: Create Release
       run: |
            cd main
            echo "V_ONTO_VERSION: $V_ONTO_VERSION"
-           gh release delete "$V_ONTO_VERSION" -y
-           gh release create "$V_ONTO_VERSION" --title "Release $V_ONTO_VERSION" --notes "Release $V_ONTO_VERSION"
+           gh release create "v$V_ONTO_VERSION" --title "Release $V_ONTO_VERSION" --notes "Release $V_ONTO_VERSION"
       env:
         GH_TOKEN: ${{ github.token }}
