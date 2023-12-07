@@ -42,3 +42,14 @@ jobs:
         keep_history: true
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: Create Release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: v$ONTO_VERSION
+        release_name: Release $ONTO_VERSION
+        body: |
+          Release of version $ONTO_VERSION
+        draft: false
+        prerelease: false
