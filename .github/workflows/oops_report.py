@@ -30,10 +30,10 @@ import rdflib
 LEVELS = {'Critical': 3, 'Important': 2, 'Minor': 1, 'Pass': 0}
 LEVELS_INV = {v: k for k, v in LEVELS.items()}
 LEVEL_COLOR = {
-    'Critical': 'critical',
-    'Important': 'important',
+    'Critical': 'red',
+    'Important': 'orange',
     'Minor': 'yellow',
-    'Pass': 'success'
+    'Pass': 'brightgreen'
 }
 
 def pitfall_repr(pitfall, namespace, restriction=''):
