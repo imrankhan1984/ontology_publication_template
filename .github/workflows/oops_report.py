@@ -189,7 +189,11 @@ def oops_report(ontology_url=None, ontology_file=None,
         print(f'OOPS API answered with status code {response.status_code}')
     if response.status_code == 200:
         report, maxlevel, maxlevel_text = make_report(response.content, restriction)
+        with open('_oops_badge_command.sh', 'w', encoding='utf8') as f:
+            f.write(f'badge OOPS! {maxlevel_text} :{LEVEL_COLOR[maxlevel_text]} > oops_badge.svg')
     else:
+        with open('_oops_badge_command.sh', 'w', encoding='utf8') as f:
+            f.write('badge OOPS! Error :blue > oops_badge.svg')
         raise RuntimeError('Invalid response from OOPS API')
 
     if verbose:
@@ -198,15 +202,6 @@ def oops_report(ontology_url=None, ontology_file=None,
 
     with open('oops_report.json', 'w', encoding='utf8') as f:
         json.dump(report, f, indent=4)
-
-    with open('_oops_maxlevel.txt', 'w', encoding='utf8') as f:
-        f.write(f'{maxlevel:d}')
-
-    with open('_oops_maxlevel_color.txt', 'w', encoding='utf8') as f:
-        f.write(f'{LEVEL_COLOR[maxlevel_text]}')
-
-    with open('_oops_maxlevel_text.txt', 'w', encoding='utf8') as f:
-        f.write(f'{maxlevel_text}')
 
 def convert_file(file_path, input_type):
     """
@@ -232,11 +227,6 @@ if __name__ == '__main__':
     parser.add_argument('-r', '--restriction', type=str, default='')
     parser.add_argument('-v', '--verbose', action='store_true')
     args = parser.parse_args()
-    with open('_oops_maxlevel_color.txt', 'w', encoding='utf8') as f:
-        f.write('lightgray')
-
-    with open('_oops_maxlevel_text.txt', 'w', encoding='utf8') as f:
-        f.write('failed')
 
     oops_report(ontology_url=args.ontology_url,
                 ontology_file=args.ontology_file,
