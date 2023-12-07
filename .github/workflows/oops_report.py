@@ -29,6 +29,12 @@ import rdflib
 
 LEVELS = {'Critical': 3, 'Important': 2, 'Minor': 1, 'Pass': 0}
 LEVELS_INV = {v: k for k, v in LEVELS.items()}
+LEVEL_COLOR = {
+    'Critical': 'critical',
+    'Important': 'important',
+    'Minor': 'yellow',
+    'Pass': 'success'
+}
 
 def pitfall_repr(pitfall, namespace, restriction=''):
     """
@@ -193,6 +199,9 @@ def oops_report(ontology_url=None, ontology_file=None,
     with open('oops_maxlevel.txt', 'w', encoding='utf8') as f:
         f.write(f'{maxlevel:d}')
 
+    with open('oops_maxlevel_color.txt', 'w', encoding='utf8') as f:
+        f.write(f'{LEVEL_COLOR[maxlevel]}')
+
     with open('oops_maxlevel_text.txt', 'w', encoding='utf8') as f:
         f.write(f'{maxlevel_text}')
 
@@ -220,6 +229,12 @@ if __name__ == '__main__':
     parser.add_argument('-r', '--restriction', type=str, default='')
     parser.add_argument('-v', '--verbose', action='store_true')
     args = parser.parse_args()
+    with open('oops_maxlevel_color.txt', 'w', encoding='utf8') as f:
+        f.write('inactive')
+
+    with open('oops_maxlevel_text.txt', 'w', encoding='utf8') as f:
+        f.write('failed')
+
     oops_report(ontology_url=args.ontology_url,
                 ontology_file=args.ontology_file,
                 ontology_file_type=args.ontology_file_type,
