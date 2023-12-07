@@ -108,6 +108,7 @@ jobs:
       run : |
             cd main
             gh release delete "v$V_ONTO_VERSION" -y
+            gh git tag delete "v$V_ONTO_VERSION" -y
       env:
         GH_TOKEN: ${{ github.token }}
     - name: Create Release
