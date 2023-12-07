@@ -27,7 +27,7 @@ import xml.etree.ElementTree as ET
 import requests
 import rdflib
 
-REQ_TIMEOUT = 600
+REQ_TIMEOUT = 120
 LEVELS = {'Critical': 3, 'Important': 2, 'Minor': 1, 'Pass': 0}
 LEVELS_INV = {v: k for k, v in LEVELS.items()}
 LEVEL_COLOR = {
