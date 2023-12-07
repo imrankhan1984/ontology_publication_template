@@ -181,6 +181,9 @@ def oops_report(ontology_url=None, ontology_file=None,
     headers = {
         'Content-Type': 'application/xml'
     }
+    with open('_oops_badge_command.sh', 'w', encoding='utf8') as f:
+        f.write('badge OOPS! Error :blue > oops_badge.svg')
+
     response = requests.post(url, data=xml_body, headers=headers, timeout=REQ_TIMEOUT)
     with open('oops_request_raw.txt', 'wb') as f:
         f.write(response.content)
