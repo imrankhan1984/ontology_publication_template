@@ -17,5 +17,4 @@ jobs:
     - name: Get report from OOPS API
       run: |
            pip install rdflib
-           echo "OOPS_MAXLEVEL=$(python main/.github/workflows/oops_report.py --ontology-file main/ontology.ttl --ontology-file-type turtle --restriction https://example.org --verbose)" >> "$GITHUB_ENV"
-           echo $OOPS_MAXLEVEL
+           python main/.github/workflows/oops_report.py --ontology-file main/ontology.ttl --ontology-file-type turtle --restriction https://example.org --verbose
