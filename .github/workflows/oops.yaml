@@ -18,7 +18,6 @@ jobs:
       run: |
            pip install rdflib
            python main/.github/workflows/oops_report.py --ontology-file main/ontology.ttl --ontology-file-type turtle --restriction https://example.org --verbose
-           ls -la .
            echo "BADGE_COLOR=$(cat oops_maxlevel_color.txt)" >> $GITHUB_ENV
            echo "BADGE_TEXT=$(cat oops_maxlevel_text.txt)" >> $GITHUB_ENV
     - name: Create badge
