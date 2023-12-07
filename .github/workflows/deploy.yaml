@@ -107,8 +107,7 @@ jobs:
       if: env.RELEASE_EXISTS == 'true'
       run : |
             cd main
-            gh release delete "v$V_ONTO_VERSION" -y
-            gh git tag delete "v$V_ONTO_VERSION" -y
+            gh release delete "v$V_ONTO_VERSION" -y --cleanup-tag
       env:
         GH_TOKEN: ${{ github.token }}
     - name: Create Release
