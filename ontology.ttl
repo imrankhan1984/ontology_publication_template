@@ -1,14 +1,14 @@
-@prefix : <https://example.org/example-ontology-stub/> .
+@prefix : <https://w3id.org/pmd/ont_pub_tmplt/> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix xml: <http://www.w3.org/XML/1998/namespace> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
-@base <https://example.org/example-ontology-stub/> .
+@base <https://w3id.org/pmd/ont_pub_tmplt/> .
 
-<https://example.org/example-ontology-stub> rdf:type owl:Ontology ;
-                           owl:versionIRI <https://example.org/example-ontology-stub/1.0.1> ;
+<https://w3id.org/pmd/ont_pub_tmplt> rdf:type owl:Ontology ;
+                           owl:versionIRI <https://w3id.org/pmd/ont_pub_tmplt/1.0.0> ;
                            owl:imports <http://www.w3.org/ns/prov-o-inverses-20130430> ;
                            <http://purl.org/dc/elements/1.1/creator> "John Doe" ;
                            <http://purl.org/dc/terms/created> "2023-11-21" ;
@@ -20,7 +20,7 @@
 ###  https://example.org/example-ontology-stub/ExampleClassStub
 :ExampleClassStub rdf:type owl:Class ;
                   skos:definition "An example Class"@en ;
-                  rdfs:isDefinedBy <https://example.org/example-ontology-stub> ;
+                  rdfs:isDefinedBy <https://w3id.org/pmd/ont_pub_tmplt> ;
                   rdfs:label "Example class stub"@en .
 
 ### https://example.org/example-ontology-stub/exampleRelation

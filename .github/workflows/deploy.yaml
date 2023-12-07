@@ -35,9 +35,6 @@ jobs:
         keep_history: true
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    - name: Purge badge cache
-      run: |
-           curl -w "\n" -s -X PURGE https://raw.githubusercontent.com/MattTJung/ontology_publish/gh-pages/oops_badge.svg
     - name: Keep oops report as artifact
       uses: actions/upload-artifact@v3
       with:
@@ -96,10 +93,6 @@ jobs:
            ontoversion=$(python main/.github/workflows/get_ontoversion.py)
            echo "Got version from python script: $ontoversion"
            echo "V_ONTO_VERSION=$ontoversion" >> $GITHUB_ENV
-#    - name: Store onto version
-#      run: echo "Store onto version ${{ steps.get_onto_version.outputs.V_ONTO_VERSION }}"
-#      env:
-#        ONTO_VERSION: ${{ steps.get_onto_version.outputs.V_ONTO_VERSION }}
     - name: Check if release exists
       run: |
            cd main
