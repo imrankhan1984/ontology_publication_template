@@ -196,13 +196,13 @@ def oops_report(ontology_url=None, ontology_file=None,
     with open('oops_report.json', 'w', encoding='utf8') as f:
         json.dump(report, f, indent=4)
 
-    with open('oops_maxlevel.txt', 'w', encoding='utf8') as f:
+    with open('_oops_maxlevel.txt', 'w', encoding='utf8') as f:
         f.write(f'{maxlevel:d}')
 
-    with open('oops_maxlevel_color.txt', 'w', encoding='utf8') as f:
+    with open('_oops_maxlevel_color.txt', 'w', encoding='utf8') as f:
         f.write(f'{LEVEL_COLOR[maxlevel_text]}')
 
-    with open('oops_maxlevel_text.txt', 'w', encoding='utf8') as f:
+    with open('_oops_maxlevel_text.txt', 'w', encoding='utf8') as f:
         f.write(f'{maxlevel_text}')
 
 def convert_file(file_path, input_type):
@@ -229,10 +229,10 @@ if __name__ == '__main__':
     parser.add_argument('-r', '--restriction', type=str, default='')
     parser.add_argument('-v', '--verbose', action='store_true')
     args = parser.parse_args()
-    with open('oops_maxlevel_color.txt', 'w', encoding='utf8') as f:
-        f.write('inactive')
+    with open('_oops_maxlevel_color.txt', 'w', encoding='utf8') as f:
+        f.write('lightgray')
 
-    with open('oops_maxlevel_text.txt', 'w', encoding='utf8') as f:
+    with open('_oops_maxlevel_text.txt', 'w', encoding='utf8') as f:
         f.write('failed')
 
     oops_report(ontology_url=args.ontology_url,
