@@ -200,7 +200,7 @@ def oops_report(ontology_url=None, ontology_file=None,
         f.write(f'{maxlevel:d}')
 
     with open('oops_maxlevel_color.txt', 'w', encoding='utf8') as f:
-        f.write(f'{LEVEL_COLOR[maxlevel]}')
+        f.write(f'{LEVEL_COLOR[maxlevel_text]}')
 
     with open('oops_maxlevel_text.txt', 'w', encoding='utf8') as f:
         f.write(f'{maxlevel_text}')
