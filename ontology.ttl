@@ -34,5 +34,7 @@
 :exampleInverseRelation rdf:type owl:ObjectProperty ;
                         skos:definition "An example inverse relation"@en ;
                         rdfs:label "has exampleInverseRelation"@en ;
-                        owl:inverseOf :exampleRelation .
+                        owl:inverseOf :exampleRelation ;
+                        rdfs:domain :ExampleClassStub ;
+                        rdfs:range :ExampleClassStub .
 
