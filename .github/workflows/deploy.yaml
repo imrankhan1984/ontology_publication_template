@@ -64,5 +64,7 @@ jobs:
         ONTO_VERSION: ${{ steps.get_onto_version.outputs.V_ONTO_VERSION }}
     - name: Update Release
       run: |
-           gh release delete $ONTO_VERSION -y
-           gh release create $ONTO_VERSION --title "Release $ONTO_VERSION" --notes "Release $ONTO_VERSION"
+           echo "ONTO_VERSION: $ONTO_VERSION"
+           echo "V_ONTO_VERSION: $ONTO_VERSION"
+           gh release delete "$ONTO_VERSION" -y
+           gh release create "$ONTO_VERSION" --title "Release $ONTO_VERSION" --notes "Release $ONTO_VERSION"
