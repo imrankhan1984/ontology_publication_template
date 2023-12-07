@@ -57,7 +57,7 @@ jobs:
            pip install rdflib
            ontoversion=$(python main/.github/workflows/get_ontoversion.py)
            echo "Got version from python script: $ontoversion"
-           echo "::set-env name=V_ONTO_VERSION::$ontoversion"
+           echo "V_ONTO_VERSION=$ontoversion" >> $GITHUB_ENV
     - name: Store onto version
       run: echo "Store onto version ${{ steps.get_onto_version.outputs.V_ONTO_VERSION }}"
       env:
