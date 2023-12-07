@@ -18,6 +18,7 @@ jobs:
       run: |
            pip install rdflib
            python main/.github/workflows/oops_report.py --ontology-file main/ontology.ttl --ontology-file-type turtle --restriction https://example.org --verbose
+           ls -la .
     - name: Keep oops report as artifact
       uses: actions/upload-artifact@v3
       with:
