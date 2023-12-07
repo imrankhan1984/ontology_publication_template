@@ -73,7 +73,7 @@ jobs:
       env:
         GH_TOKEN: ${{ github.token }}
     - name: Delete old release if it exists
-      if: RELEASE_EXISTS == 'true'
+      if: env.RELEASE_EXISTS == 'true'
       run : |
             gh release delete "v$V_ONTO_VERSION" -y
       env:
