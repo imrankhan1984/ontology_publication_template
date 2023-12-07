@@ -3,7 +3,7 @@ name: OOPS
 on:
   push:
     branches:
-    - develop
+    - main
 jobs:
   oops:
     runs-on: ubuntu-latest
@@ -11,7 +11,7 @@ jobs:
     ## First step: Checkout main from the repository
     - uses: actions/checkout@v3
       with:
-        ref: develop
+        ref: main
         path: main
     ## Second step: Get report from OOPS API
     - name: Get report from OOPS API
