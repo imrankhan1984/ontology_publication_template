@@ -1,4 +1,4 @@
-# ontology_publish
+# ontology_publication_template
 
 [![OOPS!](https://raw.githubusercontent.com/MattTJung/ontology_publish/gh-pages/oops_badge.svg)](https://oops.linkeddata.es/)
 
