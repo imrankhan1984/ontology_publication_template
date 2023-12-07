@@ -27,6 +27,7 @@ import xml.etree.ElementTree as ET
 import requests
 import rdflib
 
+REQ_TIMEOUT = 600
 LEVELS = {'Critical': 3, 'Important': 2, 'Minor': 1, 'Pass': 0}
 LEVELS_INV = {v: k for k, v in LEVELS.items()}
 LEVEL_COLOR = {
@@ -180,7 +181,7 @@ def oops_report(ontology_url=None, ontology_file=None,
     headers = {
         'Content-Type': 'application/xml'
     }
-    response = requests.post(url, data=xml_body, headers=headers, timeout=60)
+    response = requests.post(url, data=xml_body, headers=headers, timeout=REQ_TIMEOUT)
     with open('oops_request_raw.txt', 'wb') as f:
         f.write(response.content)
 
