@@ -11,14 +11,15 @@ Generates a report using the OOPS API based on the provided ontology URL or onto
 
 optional arguments:
   -h, --help            show this help message and exit
-  --ontology-url ONTOLOGY_URL
+  -t, --ontology-url ONTOLOGY_URL
                         The URL of the ontology to be used for generating the report.
-  --ontology-file ONTOLOGY_FILE
+  -f, --ontology-file ONTOLOGY_FILE
                         The path to the ontology file to be used for generating the report.
-  --ontology-file-type ONTOLOGY_FILE_TYPE
+  -t, --ontology-file-type ONTOLOGY_FILE_TYPE
                         The format of the input ontology file (default: xml).
-  --restriction RESTRICTION
+  -r, --restriction RESTRICTION
                         A restriction to be applied during report generation.
+  -v, --verbose         Whether to print verbose output.
 """
 import argparse
 import json
@@ -127,7 +128,8 @@ def make_report(strdata, restriction=''):
 
     return report, maxlevel, LEVELS_INV[maxlevel]
 
-def oops_report(ontology_url=None, ontology_file=None, ontology_file_type='xml', restriction=''):
+def oops_report(ontology_url=None, ontology_file=None,
+                ontology_file_type='xml', restriction='', verbose=False):
     """
     Generates a report using the OOPS API based on the provided ontology URL or ontology file.
     
@@ -135,6 +137,7 @@ def oops_report(ontology_url=None, ontology_file=None, ontology_file_type='xml',
         ontology_url (str): The URL of the ontology to be used for generating the report.
         ontology_file (str): The path to the ontology file to be used for generating the report.
         restriction (str): A restriction to be applied during report generation.
+        verbose (bool): Whether to print verbose output.
         
     Returns:
         int: The maximum level of the report.
@@ -144,7 +147,6 @@ def oops_report(ontology_url=None, ontology_file=None, ontology_file_type='xml',
         RuntimeError: If an invalid response is received from the OOPS API.
     """
     if ontology_file is not None:
-        #with open(ontology_file, 'r', encoding='utf8') as f:
         ontology = convert_file(ontology_file, ontology_file_type)
         xml_body = '''
         <?xml version="1.0" encoding="UTF-8"?>
@@ -174,10 +176,16 @@ def oops_report(ontology_url=None, ontology_file=None, ontology_file_type='xml',
     }
     response = requests.post(url, data=xml_body, headers=headers, timeout=60)
 
+    if verbose:
+        print(f'OOPS API answered with status code {response.status_code}')
     if response.status_code == 200:
-        report, maxlevel, _ = make_report(response.content, restriction)
+        report, maxlevel, maxlevel_text = make_report(response.content, restriction)
     else:
         raise RuntimeError('Invalid response from OOPS API')
+
+    if verbose:
+        print(f"Report shows {len(report['pitfalls'])} pitfalls and {len(report['suggestions'])} \
+                suggestions. Max level is {maxlevel}:{maxlevel_text}")
 
     with open('report.json', 'w', encoding='utf8') as f:
         json.dump(report, f, indent=4)
@@ -202,12 +210,14 @@ def convert_file(file_path, input_type):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--ontology-url', type=str, default=None)
-    parser.add_argument('--ontology-file', type=str, default=None)
-    parser.add_argument('--ontology-file-type', type=str, default='xml')
-    parser.add_argument('--restriction', type=str, default='')
+    parser.add_argument('-u', '--ontology-url', type=str, default=None)
+    parser.add_argument('-f', '--ontology-file', type=str, default=None)
+    parser.add_argument('-t', '--ontology-file-type', type=str, default='xml')
+    parser.add_argument('-r', '--restriction', type=str, default='')
+    parser.add_argument('-v', '--verbose', action='store_true')
     args = parser.parse_args()
     print(oops_report(ontology_url=args.ontology_url,
                       ontology_file=args.ontology_file,
                       ontology_file_type=args.ontology_file_type,
-                      restriction=args.restriction))
+                      restriction=args.restriction,
+                      verbose=args.verbose))
