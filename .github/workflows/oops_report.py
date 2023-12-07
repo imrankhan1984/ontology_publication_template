@@ -184,13 +184,17 @@ def oops_report(ontology_url=None, ontology_file=None,
         raise RuntimeError('Invalid response from OOPS API')
 
     if verbose:
-        print(f"Report shows {len(report['pitfalls'])} pitfalls and {len(report['suggestions'])} \
-                suggestions. Max level is {maxlevel}:{maxlevel_text}")
+        print(f"Report shows {len(report['pitfalls'])} pitfalls and {len(report['suggestions'])}",
+              f"suggestions. Max level is {maxlevel}:{maxlevel_text}")
 
     with open('report.json', 'w', encoding='utf8') as f:
         json.dump(report, f, indent=4)
 
-    return maxlevel
+    with open('oops_maxlevel.txt', 'w', encoding='utf8') as f:
+        f.write(f'{maxlevel:d}')
+
+    with open('oops_maxlevel_text.txt', 'w', encoding='utf8') as f:
+        f.write(f'{maxlevel_text}')
 
 def convert_file(file_path, input_type):
     """
@@ -216,8 +220,8 @@ if __name__ == '__main__':
     parser.add_argument('-r', '--restriction', type=str, default='')
     parser.add_argument('-v', '--verbose', action='store_true')
     args = parser.parse_args()
-    print(oops_report(ontology_url=args.ontology_url,
-                      ontology_file=args.ontology_file,
-                      ontology_file_type=args.ontology_file_type,
-                      restriction=args.restriction,
-                      verbose=args.verbose))
+    oops_report(ontology_url=args.ontology_url,
+                ontology_file=args.ontology_file,
+                ontology_file_type=args.ontology_file_type,
+                restriction=args.restriction,
+                verbose=args.verbose)
