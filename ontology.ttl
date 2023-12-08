@@ -29,14 +29,18 @@
 ### https://example.org/example-ontology-stub/exampleRelation
 :exampleRelation rdf:type owl:ObjectProperty ;
                  skos:definition "An example relation"@en ;
-                 rdfs:label "has exampleRelation"@en ;
+                 rdfs:label "Example Relation"@en ;
+                 obo:IAO_0000114 obo:IAO_0000428 ;
+                 obo:IAO_0000117 "PERSON: John Doe" ;
                  rdfs:domain :ExampleClassStub ;
                  rdfs:range :ExampleClassStub .
 
 ### https://example.org/example-ontology-stub/exampleInverseRelation
 :exampleInverseRelation rdf:type owl:ObjectProperty ;
                         skos:definition "An example inverse relation"@en ;
-                        rdfs:label "has exampleInverseRelation"@en ;
+                        rdfs:label "Example Inverse Relation"@en ;
+                        obo:IAO_0000114 obo:IAO_0000428 ;
+                        obo:IAO_0000117 "PERSON: John Doe" ;
                         owl:inverseOf :exampleRelation ;
                         rdfs:domain :ExampleClassStub ;
                         rdfs:range :ExampleClassStub .
