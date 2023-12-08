@@ -136,7 +136,7 @@ def make_report(strdata, restriction=''):
     return report, maxlevel, LEVELS_INV[maxlevel]
 
 def oops_report(ontology_url=None, ontology_file=None,
-                ontology_file_type='xml', restriction='', verbose=False):
+                ontology_file_type='xml', restriction='', verbose=False, timeout=REQ_TIMEOUT):
     """
     Generates a report using the OOPS API based on the provided ontology URL or ontology file.
     
@@ -184,7 +184,7 @@ def oops_report(ontology_url=None, ontology_file=None,
     with open('_oops_badge_command.sh', 'w', encoding='utf8') as f:
         f.write('badge OOPS! Error :blue > oops_badge.svg')
 
-    response = requests.post(url, data=xml_body, headers=headers, timeout=REQ_TIMEOUT)
+    response = requests.post(url, data=xml_body, headers=headers, timeout=timeout)
     with open('oops_request_raw.txt', 'wb') as f:
         f.write(response.content)
 
@@ -228,6 +228,7 @@ if __name__ == '__main__':
     parser.add_argument('-f', '--ontology-file', type=str, default=None)
     parser.add_argument('-t', '--ontology-file-type', type=str, default='xml')
     parser.add_argument('-r', '--restriction', type=str, default='')
+    parser.add_argument('--timeout', type=int, default=REQ_TIMEOUT)
     parser.add_argument('-v', '--verbose', action='store_true')
     args = parser.parse_args()
 
@@ -235,4 +236,5 @@ if __name__ == '__main__':
                 ontology_file=args.ontology_file,
                 ontology_file_type=args.ontology_file_type,
                 restriction=args.restriction,
-                verbose=args.verbose)
+                verbose=args.verbose,
+                timeout=args.timeout)
