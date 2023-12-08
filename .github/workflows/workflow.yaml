@@ -78,7 +78,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     needs: [styleguide, oops]
-    if: ${{ github.ref_name }} == 'main'
+    if: github.ref_name == 'main'
     steps:
     ## First step: Checkout main from the repository
     - uses: actions/checkout@v3
@@ -92,7 +92,7 @@ jobs:
     - name: Get ontology version
       run: |
            pip install rdflib
-           echo "ONTO_VERSION=$(python deploy_main/.github/workflows/get_ontoversion.py)" >> "$GITHUB_ENV"
+           echo "ONTO_VERSION=$(python deploy_main/.github/workflows/get_ontoversion.py deploy_main/ontology.ttl)" >> "$GITHUB_ENV"
     ## Third step: Build HTML and ontology serializations for the current version
     - name: Build HTML for main
       run: | 
@@ -116,7 +116,7 @@ jobs:
   update_release:
     runs-on: ubuntu-latest
     needs: [styleguide, oops]
-    if: ${{ github.ref_name }} == 'main'
+    if: github.ref_name == 'main'
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
@@ -126,7 +126,7 @@ jobs:
       id: get_onto_version
       run: |
            pip install rdflib
-           ontoversion=$(python release_main/.github/workflows/get_ontoversion.py)
+           ontoversion=$(python release_main/.github/workflows/get_ontoversion.py release_main/ontology.ttl)
            echo "Got version from python script: $ontoversion"
            echo "V_ONTO_VERSION=$ontoversion" >> $GITHUB_ENV
     - name: Check if release exists

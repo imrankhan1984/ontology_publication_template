@@ -5,11 +5,11 @@ import argparse
 import rdflib
 
 parser = argparse.ArgumentParser(prog='get_ontoversion', description='Get version of an ontology')
-parser.add_argument('-l', help='Location of the ontology file', default='main/ontology.ttl')
+parser.add_argument('ontology_file', help='Location of the ontology file')
 args = parser.parse_args()
 
 g = rdflib.Graph()
-g.parse(location=args.l)
+g.parse(location=args.ontology_file)
 
 # Get first URI and version of the ontology (assuming there is only one)
 QUERY_OBJECT="""
