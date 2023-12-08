@@ -26,8 +26,8 @@ jobs:
            npm install -g badge-maker
            chmod u+x _oops_badge_command.sh
            ./_oops_badge_command.sh
-           mkdir public
-           cp oops_badge.svg public/oops_badge.svg
+           mkdir -p public/branches
+           cp oops_badge.svg "public/${{ github.ref_name }}_oops_badge.svg"
     - name: Deploy to GitHub Pages
       if: success()
       uses: crazy-max/ghaction-github-pages@v3
@@ -62,7 +62,7 @@ jobs:
            chmod u+x _styleguide_badge.sh
            ./_styleguide_badge.sh
            mkdir public
-           cp styleguide_badge.svg public/styleguide_badge.svg
+           cp styleguide_badge.svg "public/${{ github.ref_name }}_styleguide_badge.svg"
     - name: Deploy to GitHub Pages
       if: success()
       uses: crazy-max/ghaction-github-pages@v3

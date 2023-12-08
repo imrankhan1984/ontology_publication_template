@@ -1,7 +1,10 @@
 # ontology_publication_template
-
-[![OOPS!](https://raw.githubusercontent.com/materialdigital/ontology_publish/gh-pages/oops_badge.svg)](https://oops.linkeddata.es/)
-[![Styleguide check](https://raw.githubusercontent.com/materialdigital/ontology_publication_template/gh-pages/styleguide_badge.svg)]()
+### Main branch status
+[![OOPS!](https://raw.githubusercontent.com/materialdigital/ontology_publication_template/gh-pages/main_oops_badge.svg)](https://oops.linkeddata.es/)
+[![Styleguide check](https://raw.githubusercontent.com/materialdigital/ontology_publication_template/gh-pages/main_styleguide_badge.svg)]()
+### Dev branch status
+[![OOPS!](https://raw.githubusercontent.com/materialdigital/ontology_publication_template/gh-pages/develop_oops_badge.svg)](https://oops.linkeddata.es/)
+[![Styleguide check](https://raw.githubusercontent.com/materialdigital/ontology_publication_template/gh-pages/develop_styleguide_badge.svg)]()
 
 ## Purpose
 This repo contains a minimal example of how ontologies could be published using github-pages while maintaining availability of definition files and documentation for older versions.
