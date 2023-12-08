@@ -4,6 +4,8 @@ on:
   push:
     branches:
     - MattTJung_Patch-1
+    - develop
+    - main
 jobs:
   oops:
     runs-on: ubuntu-latest
