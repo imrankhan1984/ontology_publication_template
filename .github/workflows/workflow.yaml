@@ -150,6 +150,6 @@ jobs:
       run: |
            cd release_main
            echo "V_ONTO_VERSION: $V_ONTO_VERSION"
-           gh release create "v$V_ONTO_VERSION" --title "Release $V_ONTO_VERSION" --notes "Release $V_ONTO_VERSION"
+           gh release create "v$V_ONTO_VERSION" --title "Release $V_ONTO_VERSION" --notes "Release $V_ONTO_VERSION" --latest
       env:
         GH_TOKEN: ${{ github.token }}
