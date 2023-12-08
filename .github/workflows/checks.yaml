@@ -1,0 +1,77 @@
+name: Checks
+
+on:
+  push:
+    branches:
+    - MattTJung_Patch-1
+jobs:
+  oops:
+    runs-on: ubuntu-latest
+    steps:
+    ## First step: Checkout branch from the repository
+    - uses: actions/checkout@v3
+      with:
+        ref: MattTJung_Patch-1
+        path: oops_main
+    ## Second step: Get report from OOPS API
+    - name: Get report from OOPS API
+      run: |
+           pip install rdflib
+           python oops_main/.github/workflows/oops_report.py --ontology-file oops_main/ontology.ttl --ontology-file-type turtle --restriction https://example.org --verbose
+      continue-on-error: true
+    - name: Create badge
+      run: |
+           npm install -g badge-maker
+           chmod u+x _oops_badge_command.sh
+           ./_oops_badge_command.sh
+           mkdir public
+           cp oops_badge.svg public/oops_badge.svg
+    - name: Deploy to GitHub Pages
+      if: success()
+      uses: crazy-max/ghaction-github-pages@v3
+      with:
+        target_branch: gh-pages
+        build_dir: public
+        keep_history: true
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: Keep oops report as artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: oops_report
+        path: ./oops*
+  styleguide:
+    runs-on: ubuntu-latest
+    steps:
+    ## First step: Checkout main from the repository
+    - uses: actions/checkout@v3
+      with:
+        ref: MattTJung_Patch-1
+        path: style_main
+    ## Second step: Get report from OOPS API
+    - name: Run style guide validator
+      run: |
+           pip install rdflib
+           python style_main/.github/workflows/styleguide_checker.py style_main/ontology.ttl --report_file styleguide_report.json --create_badge --badge_cmdfile _styleguide_badge.sh --badge_svgfile styleguide_badge.svg
+      continue-on-error: true
+    - name: Create badge
+      run: |
+           npm install -g badge-maker
+           chmod u+x _styleguide_badge.sh
+           ./_styleguide_badge.sh
+           mkdir public
+           cp styleguide_badge.svg public/styleguide_badge.svg
+    - name: Deploy to GitHub Pages
+      if: success()
+      uses: crazy-max/ghaction-github-pages@v3
+      with:
+        target_branch: gh-pages
+        build_dir: public
+        keep_history: true
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: Keep styleguide report as artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: styleguide_report
+        path: ./style*
