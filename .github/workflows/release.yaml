@@ -11,7 +11,6 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v3
       with:
-        ref: MattTJung_Patch-1
         path: release_main
     - name: Get ontology version
       id: get_onto_version

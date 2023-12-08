@@ -11,7 +11,6 @@ jobs:
     ## First step: Checkout main from the repository
     - uses: actions/checkout@v3
       with:
-        ref: MattTJung_Patch-1
         path: deploy_main
     ## Second step: Use the get_ontoversion tool to get the current ontology version published in main
     ## Usage of get_ontoversionversion.py:
