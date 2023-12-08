@@ -335,7 +335,7 @@ if __name__ == '__main__':
         else:
             for frac_thr, b_color in zip(
                 np.flip(np.linspace(0.0, 1.0, 6, endpoint=False)),
-                ['lightgreen', 'green', 'yellow', 'yellowgreen', 'orange', 'red']
+                ['brightgreen', 'green', 'yellow', 'yellowgreen', 'orange', 'red']
             ):
                 if frac >= frac_thr:
                     return b_color
