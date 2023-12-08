@@ -1,12 +1,9 @@
 name: Deploy
 
-env:
-  BRANCH: MattTJung_Patch-1
-
 on:
   push:
     branches:
-    - $BRANCH
+    - MattTJung_Patch-1
 jobs:
   oops:
     runs-on: ubuntu-latest
@@ -14,7 +11,7 @@ jobs:
     ## First step: Checkout branch from the repository
     - uses: actions/checkout@v3
       with:
-        ref: $BRANCH
+        ref: MattTJung_Patch-1
         path: oops_main
     ## Second step: Get report from OOPS API
     - name: Get report from OOPS API
@@ -49,7 +46,7 @@ jobs:
     ## First step: Checkout main from the repository
     - uses: actions/checkout@v3
       with:
-        ref: $BRANCH
+        ref: MattTJung_Patch-1
         path: style_main
     ## Second step: Get report from OOPS API
     - name: Run style guide validator
@@ -85,7 +82,7 @@ jobs:
     ## First step: Checkout main from the repository
     - uses: actions/checkout@v3
       with:
-        ref: $BRANCH
+        ref: MattTJung_Patch-1
         path: deploy_main
     ## Second step: Use the get_ontoversion tool to get the current ontology version published in main
     ## Usage of get_ontoversionversion.py:
@@ -116,43 +113,3 @@ jobs:
         keep_history: true
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  update_release:
-    runs-on: ubuntu-latest
-    if: $BRANCH == 'main'
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
-      with:
-        ref: $BRANCH
-        path: release_main
-    - name: Get ontology version
-      id: get_onto_version
-      run: |
-           pip install rdflib
-           ontoversion=$(python release_main/.github/workflows/get_ontoversion.py)
-           echo "Got version from python script: $ontoversion"
-           echo "V_ONTO_VERSION=$ontoversion" >> $GITHUB_ENV
-    - name: Check if release exists
-      run: |
-           cd release_main
-           if gh release view "v$V_ONTO_VERSION" -R "$GITHUB_REPOSITORY" &> /dev/null; then
-             echo "RELEASE_EXISTS=true" >> $GITHUB_ENV
-           else
-             echo "RELEASE_EXISTS=false" >> $GITHUB_ENV
-           fi
-      env:
-        GH_TOKEN: ${{ github.token }}
-    - name: Delete old release if it exists
-      if: env.RELEASE_EXISTS == 'true'
-      run : |
-            cd release_main
-            gh release delete "v$V_ONTO_VERSION" -y --cleanup-tag
-      env:
-        GH_TOKEN: ${{ github.token }}
-    - name: Create Release
-      run: |
-           cd release_main
-           echo "V_ONTO_VERSION: $V_ONTO_VERSION"
-           gh release create "v$V_ONTO_VERSION" --title "Release $V_ONTO_VERSION" --notes "Release $V_ONTO_VERSION"
-      env:
-        GH_TOKEN: ${{ github.token }}
