@@ -5,49 +5,14 @@ on:
     branches:
     - main
 jobs:
-  oops:
-    runs-on: ubuntu-latest
-    steps:
-    ## First step: Checkout main from the repository
-    - uses: actions/checkout@v3
-      with:
-        ref: main
-        path: main
-    ## Second step: Get report from OOPS API
-    - name: Get report from OOPS API
-      run: |
-           pip install rdflib
-           python main/.github/workflows/oops_report.py --ontology-file main/ontology.ttl --ontology-file-type turtle --restriction https://example.org --verbose
-      continue-on-error: true
-    - name: Create badge
-      run: |
-           npm install -g badge-maker
-           chmod u+x _oops_badge_command.sh
-           ./_oops_badge_command.sh
-           mkdir public
-           cp oops_badge.svg public/oops_badge.svg
-    - name: Deploy to GitHub Pages
-      if: success()
-      uses: crazy-max/ghaction-github-pages@v3
-      with:
-        target_branch: gh-pages
-        build_dir: public
-        keep_history: true
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    - name: Keep oops report as artifact
-      uses: actions/upload-artifact@v3
-      with:
-        name: oops_report
-        path: ./oops*
   deploy:
     runs-on: ubuntu-latest
     steps:
     ## First step: Checkout main from the repository
     - uses: actions/checkout@v3
       with:
-        ref: main
-        path: main
+        ref: MattTJung_Patch-1
+        path: deploy_main
     ## Second step: Use the get_ontoversion tool to get the current ontology version published in main
     ## Usage of get_ontoversionversion.py:
     ##   python get_ontoversionversion.py [-l L]
@@ -56,14 +21,14 @@ jobs:
     - name: Get ontology version
       run: |
            pip install rdflib
-           echo "ONTO_VERSION=$(python main/.github/workflows/get_ontoversion.py)" >> "$GITHUB_ENV"
+           echo "ONTO_VERSION=$(python deploy_main/.github/workflows/get_ontoversion.py)" >> "$GITHUB_ENV"
     ## Third step: Build HTML and ontology serializations for the current version
     - name: Build HTML for main
       run: | 
            wget -O widoco.jar https://github.com/dgarijo/Widoco/releases/download/v1.4.17/java-11-widoco-1.4.17-jar-with-dependencies.jar
            mkdir public 
            mkdir public/v$ONTO_VERSION
-           java -jar widoco.jar -ontFile main/ontology.ttl -outFolder public/v$ONTO_VERSION -htaccess -uniteSections -includeAnnotationProperties -lang en-de  -getOntologyMetadata -noPlaceHolderText -rewriteAll -webVowl
+           java -jar widoco.jar -ontFile deploy_main/ontology.ttl -outFolder public/v$ONTO_VERSION -htaccess -uniteSections -includeAnnotationProperties -lang en-de  -getOntologyMetadata -noPlaceHolderText -rewriteAll -webVowl
            cp public/v$ONTO_VERSION/index-en.html public/v$ONTO_VERSION/index.html
     ## Fourth step: Publish HTML docs and ontology serializations to gh pages
     ##              maintaining other versions and
@@ -77,43 +42,3 @@ jobs:
         keep_history: true
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  update_release:
-    runs-on: ubuntu-latest
-
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
-      with:
-        ref: main
-        path: main
-    - name: Get ontology version
-      id: get_onto_version
-      run: |
-           pip install rdflib
-           ontoversion=$(python main/.github/workflows/get_ontoversion.py)
-           echo "Got version from python script: $ontoversion"
-           echo "V_ONTO_VERSION=$ontoversion" >> $GITHUB_ENV
-    - name: Check if release exists
-      run: |
-           cd main
-           if gh release view "v$V_ONTO_VERSION" -R "$GITHUB_REPOSITORY" &> /dev/null; then
-             echo "RELEASE_EXISTS=true" >> $GITHUB_ENV
-           else
-             echo "RELEASE_EXISTS=false" >> $GITHUB_ENV
-           fi
-      env:
-        GH_TOKEN: ${{ github.token }}
-    - name: Delete old release if it exists
-      if: env.RELEASE_EXISTS == 'true'
-      run : |
-            cd main
-            gh release delete "v$V_ONTO_VERSION" -y --cleanup-tag
-      env:
-        GH_TOKEN: ${{ github.token }}
-    - name: Create Release
-      run: |
-           cd main
-           echo "V_ONTO_VERSION: $V_ONTO_VERSION"
-           gh release create "v$V_ONTO_VERSION" --title "Release $V_ONTO_VERSION" --notes "Release $V_ONTO_VERSION"
-      env:
-        GH_TOKEN: ${{ github.token }}
