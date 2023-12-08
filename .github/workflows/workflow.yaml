@@ -6,12 +6,6 @@ on:
     - develop
     - main
 jobs:
-  reftest:
-    runs-on: ubuntu-latest
-    steps:
-    - name: reftest
-      run: |
-           echo "${{github.ref_name}}"
   oops:
     runs-on: ubuntu-latest
     needs: styleguide
