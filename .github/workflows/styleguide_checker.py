@@ -2,12 +2,16 @@
 This module contains functions for generating and manipulating badges.
 
 Author: Matthias Jung
-Date: December 8, 2023
+Date: 2023-12-07
 
 usage: styleguide_checker.py [-h] [-r REPORT_FILE] [-b] 
                              [--badge_cmdfile BADGE_CMDFILE] 
                              [--badge_svgfile BADGE_SVGFILE] 
                              ontology_file
+
+Check compliance of an ontology file with the PMDco style guide.
+The results are written to a JSON file. A shell command for
+creating a badge is also generated.
 
 positional arguments:
   ontology_file
@@ -275,7 +279,10 @@ def check_graph(graph: rdflib.graph.Graph) -> dict[str, dict[str, dict[str, bool
     }
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser()
+    parser = argparse.ArgumentParser(
+        description='Check compliance of an ontology file with the PMDco style guide. \
+                     The results are written to a JSON file. \
+                     A shell command for creating a badge is also generated.')
     parser.add_argument('ontology_file', type=str)
     parser.add_argument('-r', '--report_file', type=str, default='styleguide_report.json',
                         help='Specify the file path for the style guide report')
