@@ -12,7 +12,6 @@ jobs:
     ## First step: Checkout branch from the repository
     - uses: actions/checkout@v3
       with:
-        #ref: MattTJung_Patch-1
         path: oops_main
     ## Second step: Get report from OOPS API
     - name: Get report from OOPS API
@@ -47,7 +46,6 @@ jobs:
     ## First step: Checkout main from the repository
     - uses: actions/checkout@v3
       with:
-        #ref: MattTJung_Patch-1
         path: style_main
     ## Second step: Get report from OOPS API
     - name: Run style guide validator
