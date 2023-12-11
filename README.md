@@ -13,7 +13,7 @@ This repo contains a minimal example of how ontologies could be published using 
 ### [ontology.ttl](ontology.ttl)
 The definition file for an ontology, which is actively developed and thus changes its version number more or less frequently.
 
-### [.github/workflows/deploy.yaml](.github/workflows/workflow.yaml)
+### [.github/workflows/workflow.yaml](.github/workflows/workflow.yaml)
 A workflow definition that does the following steps on push to main and develop:
 
 On main and develop:
