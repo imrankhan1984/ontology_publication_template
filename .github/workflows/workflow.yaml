@@ -1,84 +1,17 @@
-name: Check and deploy
+name: Deploy
 
+env:
+  ONTOLOGY_FILE_NAME: ontology.ttl
 on:
   push:
     branches:
     - develop
     - main
+    - umbrella_paper_requirements
 jobs:
-  oops:
-    runs-on: ubuntu-latest
-    needs: styleguide
-    steps:
-    ## First step: Checkout branch from the repository
-    - uses: actions/checkout@v3
-      with:
-        path: oops_main
-    ## Second step: Get report from OOPS API
-    - name: Get report from OOPS API
-      run: |
-           pip install rdflib
-           python oops_main/.github/workflows/oops_report.py --ontology-file oops_main/ontology.ttl --ontology-file-type turtle --restriction https://example.org --verbose
-      continue-on-error: true
-    - name: Create badge
-      run: |
-           npm install -g badge-maker
-           chmod u+x _oops_badge_command.sh
-           ./_oops_badge_command.sh
-           mkdir -p public/branches
-           cp oops_badge.svg "public/${{ github.ref_name }}_oops_badge.svg"
-    - name: Deploy to GitHub Pages
-      if: success()
-      uses: crazy-max/ghaction-github-pages@v3
-      with:
-        target_branch: gh-pages
-        build_dir: public
-        keep_history: true
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    - name: Keep oops report as artifact
-      uses: actions/upload-artifact@v3
-      with:
-        name: oops_report
-        path: ./oops*
-  styleguide:
-    runs-on: ubuntu-latest
-    steps:
-    ## First step: Checkout main from the repository
-    - uses: actions/checkout@v3
-      with:
-        path: style_main
-    ## Second step: Get report from OOPS API
-    - name: Run style guide validator
-      run: |
-           pip install rdflib numpy
-           python style_main/.github/workflows/styleguide_checker.py style_main/ontology.ttl --report_file styleguide_report.json --create_badge --badge_cmdfile _styleguide_badge.sh --badge_svgfile styleguide_badge.svg
-      continue-on-error: true
-    - name: Create badge
-      run: |
-           npm install -g badge-maker
-           chmod u+x _styleguide_badge.sh
-           ./_styleguide_badge.sh
-           mkdir public
-           cp styleguide_badge.svg "public/${{ github.ref_name }}_styleguide_badge.svg"
-    - name: Deploy to GitHub Pages
-      if: success()
-      uses: crazy-max/ghaction-github-pages@v3
-      with:
-        target_branch: gh-pages
-        build_dir: public
-        keep_history: true
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    - name: Keep styleguide report as artifact
-      uses: actions/upload-artifact@v3
-      with:
-        name: styleguide_report
-        path: ./style*
   deploy:
     runs-on: ubuntu-latest
-    needs: [styleguide, oops]
-    if: github.ref_name == 'main'
+    #if: github.ref_name == 'main'
     steps:
     ## First step: Checkout main from the repository
     - uses: actions/checkout@v3
@@ -92,14 +25,14 @@ jobs:
     - name: Get ontology version
       run: |
            pip install rdflib
-           echo "ONTO_VERSION=$(python deploy_main/.github/workflows/get_ontoversion.py deploy_main/ontology.ttl)" >> "$GITHUB_ENV"
+           echo "ONTO_VERSION=$(python deploy_main/.github/workflows/get_ontoversion.py deploy_main/$ONTOLOGY_FILE_NAME)" >> "$GITHUB_ENV"
     ## Third step: Build HTML and ontology serializations for the current version
     - name: Build HTML for main
       run: | 
            wget -O widoco.jar https://github.com/dgarijo/Widoco/releases/download/v1.4.17/java-11-widoco-1.4.17-jar-with-dependencies.jar
            mkdir public 
            mkdir public/v$ONTO_VERSION
-           java -jar widoco.jar -ontFile deploy_main/ontology.ttl -outFolder public/v$ONTO_VERSION -htaccess -uniteSections -includeAnnotationProperties -lang en-de  -getOntologyMetadata -noPlaceHolderText -rewriteAll -webVowl
+           java -jar widoco.jar -ontFile deploy_main/$ONTOLOGY_FILE_NAME -outFolder public/v$ONTO_VERSION -htaccess -uniteSections -includeAnnotationProperties -lang en-de -getOntologyMetadata -noPlaceHolderText -rewriteAll -webVowl
            cp public/v$ONTO_VERSION/index-en.html public/v$ONTO_VERSION/index.html
     ## Fourth step: Publish HTML docs and ontology serializations to gh pages
     ##              maintaining other versions and
@@ -113,43 +46,3 @@ jobs:
         keep_history: true
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  update_release:
-    runs-on: ubuntu-latest
-    needs: [styleguide, oops]
-    if: github.ref_name == 'main'
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
-      with:
-        path: release_main
-    - name: Get ontology version
-      id: get_onto_version
-      run: |
-           pip install rdflib
-           ontoversion=$(python release_main/.github/workflows/get_ontoversion.py release_main/ontology.ttl)
-           echo "Got version from python script: $ontoversion"
-           echo "V_ONTO_VERSION=$ontoversion" >> $GITHUB_ENV
-    - name: Check if release exists
-      run: |
-           cd release_main
-           if gh release view "v$V_ONTO_VERSION" -R "$GITHUB_REPOSITORY" &> /dev/null; then
-             echo "RELEASE_EXISTS=true" >> $GITHUB_ENV
-           else
-             echo "RELEASE_EXISTS=false" >> $GITHUB_ENV
-           fi
-      env:
-        GH_TOKEN: ${{ github.token }}
-    - name: Delete old release if it exists
-      if: env.RELEASE_EXISTS == 'true'
-      run : |
-            cd release_main
-            gh release delete "v$V_ONTO_VERSION" -y --cleanup-tag
-      env:
-        GH_TOKEN: ${{ github.token }}
-    - name: Create Release
-      run: |
-           cd release_main
-           echo "V_ONTO_VERSION: $V_ONTO_VERSION"
-           gh release create "v$V_ONTO_VERSION" --title "Release $V_ONTO_VERSION" --notes "Release $V_ONTO_VERSION" --latest
-      env:
-        GH_TOKEN: ${{ github.token }}
