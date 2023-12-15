@@ -11,7 +11,7 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    if: github.ref_name == 'main' or github.ref_name == 'umbrella_paper_requirements'
+    #if: github.ref_name == 'main'
     steps:
     ## First step: Checkout main from the repository
     - uses: actions/checkout@v3
