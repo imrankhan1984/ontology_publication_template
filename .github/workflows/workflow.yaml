@@ -1,4 +1,4 @@
-name: Check and deploy
+name: Deploy
 
 env:
   ONTOLOGY_FILE_NAME: ontology.ttl
