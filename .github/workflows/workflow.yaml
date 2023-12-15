@@ -7,11 +7,10 @@ on:
     branches:
     - develop
     - main
-    - umbrella_paper_requirements
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    #if: github.ref_name == 'main'
+    if: github.ref_name == 'main'
     steps:
     ## First step: Checkout main from the repository
     - uses: actions/checkout@v3
