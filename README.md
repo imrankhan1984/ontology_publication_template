@@ -1,4 +1,5 @@
 # ontology_publication_template
+[![Check and deploy](https://github.com/materialdigital/ontology_publication_template/actions/workflows/workflow.yaml/badge.svg)](https://github.com/materialdigital/ontology_publication_template/actions/workflows/workflow.yaml)
 
 ## Purpose
 This repo contains a minimal example of how ontologies could be published using github-pages while maintaining availability of definition files and documentation for older versions.
