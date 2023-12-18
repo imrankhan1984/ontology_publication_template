@@ -36,7 +36,7 @@ RewriteCond %{HTTP_ACCEPT} \*/turtle
 RewriteRule ^(.*)$ %{ENV:ONT_BASE}/%{ENV:ONT_VERSION}/ontology.ttl [R=303,L]
 
 RewriteCond %{HTTP_ACCEPT} .+
-RewriteRule ^.*$ %{ENV:ONT_BASE}/%[ENV:ONT_VERSION}/406.html [R=406,L]
+RewriteRule ^.*$ %{ENV:ONT_BASE}/%{ENV:ONT_VERSION}/406.html [R=406,L]
 
 # Default response
 # ---------------------------
